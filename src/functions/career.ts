@@ -4,12 +4,14 @@ import {
   companyRoutes,
   contactRoutes,
   interviewRoutes,
+  jobRoutes,
   referralRoutes,
 } from "../handlers/career"
 
-/** CareerFunction: applications, companies, contacts, referrals, interviews. */
+/** CareerFunction: applications, job search, companies, contacts, referrals, interviews. */
 export const handler = createHandler({
   ...applicationRoutes,
+  ...jobRoutes,
   ...companyRoutes,
   ...contactRoutes,
   ...referralRoutes,

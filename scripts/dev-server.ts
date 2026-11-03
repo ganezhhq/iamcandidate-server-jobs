@@ -30,6 +30,7 @@ import {
   companyRoutes,
   contactRoutes,
   interviewRoutes,
+  jobRoutes,
   referralRoutes,
 } from "../src/handlers/career"
 import { emailRoutes, smtpRoutes, templateRoutes } from "../src/handlers/communication"
@@ -115,6 +116,7 @@ process.env.LATEX_TIMEOUT_MS ??= String(5 * 60_000)
 const api = createHandler(
   {
     ...applicationRoutes,
+    ...jobRoutes,
     ...companyRoutes,
     ...contactRoutes,
     ...referralRoutes,
@@ -303,6 +305,7 @@ async function main() {
   Data                    ${DATA_DIR}  (npm run dev:reset to start over)
   Frontend                NEXT_PUBLIC_API_MODE=api, NEXT_PUBLIC_API_URL=http://localhost:${API_PORT}
   Google Drive            ${getConfig().google ? "enabled" : "off — set GOOGLE_CLIENT_ID and GOOGLE_CLIENT_SECRET in .env"}
+  Job search (Jooble)     ${getConfig().joobleApiKey ? "enabled" : "off — set JOOBLE_API_KEY in .env"}
   LaTeX compiler          ${process.env.TECTONIC_PATH}
 `)
 

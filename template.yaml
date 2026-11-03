@@ -48,6 +48,11 @@ Parameters:
       Where Google returns after consent, e.g.
       https://your-frontend.example.com/integrations/google-drive/callback. Must match the
       OAuth client's authorized redirect URI exactly.
+  JoobleApiKey:
+    Type: String
+    Default: ""
+    NoEcho: true
+    Description: Jooble API key for job search (leave empty to search company job boards only).
   DefaultUserId:
     Type: String
     Default: usr_demo
@@ -95,6 +100,7 @@ Globals:
         GOOGLE_CLIENT_ID: !Ref GoogleClientId
         GOOGLE_CLIENT_SECRET: !Ref GoogleClientSecret
         GOOGLE_REDIRECT_URI: !Ref GoogleRedirectUri
+        JOOBLE_API_KEY: !Ref JoobleApiKey
         NODE_OPTIONS: --enable-source-maps
         # Local-only overrides (set in env.local.json). Empty in AWS, so the SDK
         # uses the regional endpoints and the function's IAM role.
@@ -306,6 +312,12 @@ Resources:
             ApiId: !Ref HttpApi
             Method: POST
             Path: /applications/extract
+        SearchJobs:
+          Type: HttpApi
+          Properties:
+            ApiId: !Ref HttpApi
+            Method: GET
+            Path: /jobs/search
         ExtractContactFromLink:
           Type: HttpApi
           Properties:

@@ -107,6 +107,13 @@ Server-side rules worth knowing:
   private, loopback and link-local addresses are refused on every redirect — with a 3 MB /
   8 s cap per page. Sites that block the request (403/429, LinkedIn's 999) return a 502 that
   says so.
+- `GET /jobs/search?q=&location=&remote=&page=&boards=` finds open jobs and returns
+  `{ jobs: [{ id, role, company, location, workMode, salary, description, url, source, postedAt }],
+  sources: [{ name, status: "ok" | "off" | "error", message? }], hasMore }`. Nothing is saved.
+  `boards` is a comma-separated list of up to 10 `greenhouse|lever|ashby:slug` company boards,
+  filtered by role and location and returned with the first page only. Jooble is `off` until
+  `JOOBLE_API_KEY` is set. A source that fails doesn't fail the search, and results are cached per
+  Lambda instance for 10 minutes.
 - Creating an interview appends an "interview scheduled" event to its application.
 - Updating a resume bumps its version (`v3.2` → `v3.3`) unless `version` is sent.
 - Setting a task to `done` sets `completedAt`; any other status clears it.

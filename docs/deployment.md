@@ -41,6 +41,7 @@ Answer the prompts:
 | Parameter `AuthSecret`                                                 | 32+ random characters: `node -e "console.log(require('crypto').randomBytes(48).toString('base64url'))"`                         |
 | Parameter `EncryptionKey`                                              | Another 32+ random characters (encrypts users' SMTP passwords). Keep it safe: changing it makes saved SMTP passwords unreadable |
 | Parameters `GoogleClientId`, `GoogleClientSecret`, `GoogleRedirectUri` | Optional, for Google Drive — see [google-drive.md](google-drive.md). Leave empty to disable                                     |
+| Parameter `JoobleApiKey`                                               | Optional, for job search (request a key at https://jooble.org/api/about). Leave empty to search company job boards only        |
 | Parameter `DefaultUserId`                                              | keep `usr_demo`                                                                                                                 |
 | Confirm changes before deploy                                          | `y`                                                                                                                             |
 | Allow SAM CLI IAM role creation                                        | `y`                                                                                                                             |

@@ -16,6 +16,7 @@ import {
   interviewPatch,
   interviewQuery,
   jobLinkBody,
+  jobSearchQuery,
   referralInput,
   referralPatch,
   referralQuery,
@@ -28,6 +29,7 @@ import { contactsService } from "../services/contacts.service"
 import { filterItems } from "../services/crud"
 import { interviewsService } from "../services/interviews.service"
 import { jobExtractService } from "../services/job-extract.service"
+import { jobSearchService } from "../services/job-search.service"
 import { referralsService } from "../services/referrals.service"
 import { crudRoutes, pathId } from "./crud"
 
@@ -59,6 +61,12 @@ export const applicationRoutes: Routes = {
     const event = validate(timelineEventInput, ctx.body, "request body")
     return created(await applicationsService.addTimelineEvent(ctx.userId, pathId(ctx), event))
   },
+}
+
+export const jobRoutes: Routes = {
+  // Finds open jobs; nothing is saved until the user reviews one.
+  "GET /jobs/search": async (ctx) =>
+    ok(await jobSearchService.search(validate(jobSearchQuery, ctx.query, "query parameters"))),
 }
 
 export const companyRoutes = crudRoutes("/companies", filtered(companiesService), {

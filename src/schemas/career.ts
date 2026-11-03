@@ -49,6 +49,31 @@ export const applicationPatch = patchSchema(applicationInput)
 /** A job or profile link to read for the "add from link" chat. */
 export const jobLinkBody = z.strictObject({ url: urlText })
 
+const JOB_BOARD = "(greenhouse|lever|ashby):[a-zA-Z0-9][\\w.-]{0,99}"
+
+/** `type:slug` pairs, e.g. `greenhouse:acme,lever:globex`. */
+const jobBoards = z
+  .string()
+  .regex(new RegExp(`^${JOB_BOARD}(,${JOB_BOARD})*$`))
+  .transform((value) =>
+    value.split(",").map((pair) => {
+      const [type, slug] = pair.split(":") as ["greenhouse" | "lever" | "ashby", string]
+      return { type, slug }
+    }),
+  )
+  .refine((boards) => boards.length <= 10, "Search at most 10 job boards at once")
+
+export const jobSearchQuery = z.object({
+  q: z.string().trim().min(2).max(120),
+  location: z.string().trim().max(120).default(""),
+  remote: z
+    .enum(["true", "false"])
+    .default("false")
+    .transform((value) => value === "true"),
+  page: z.coerce.number().int().min(1).max(20).default(1),
+  boards: jobBoards.optional().transform((boards) => boards ?? []),
+})
+
 export const applicationStatusBody = z.strictObject({ status: z.enum(APPLICATION_STATUSES) })
 
 export const timelineEventInput = z.strictObject({

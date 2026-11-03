@@ -28,6 +28,8 @@ export interface Config {
   allowPrivateSmtpHosts: boolean
   /** Google OAuth client for the Drive integration (feature is off when unset). */
   google: { clientId: string; clientSecret: string; redirectUri: string } | undefined
+  /** Jooble key for job search (that source is off when unset). */
+  joobleApiKey: string | undefined
 }
 
 function optional(name: string): string | undefined {
@@ -73,6 +75,7 @@ export function getConfig(): Config {
     dataEncryptionKey: optional("DATA_ENCRYPTION_KEY"),
     allowPrivateSmtpHosts: optional("ALLOW_PRIVATE_SMTP_HOSTS") === "true",
     google: googleConfig(),
+    joobleApiKey: optional("JOOBLE_API_KEY"),
   }
   return cached
 }
